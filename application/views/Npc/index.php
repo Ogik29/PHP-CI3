@@ -41,7 +41,7 @@
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Search NPC name..." name="keyword" autocomplete="off" autofocus>
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                        <button class="btn btn-outline-dark" type="button">Search</button>
                         <a href="<?php echo base_url() ?>Npc" class="btn btn-outline-secondary">Refresh</a>
                     </div>
                 </div>
