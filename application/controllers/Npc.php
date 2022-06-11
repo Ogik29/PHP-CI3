@@ -14,12 +14,34 @@ class Npc extends CI_Controller
 
     public function index()
     {
+        // searching
+        if (isset($_POST['submit'])) { // ('submit') didapat dari name yang ada di button bukan type
+            $data['keyword'] = $this->input->post('keyword');
+            $this->session->set_userdata('keywordNPC', $data['keyword']);
+            // simpan $data['keyword'] di session set_userdata('keyword') (karena session dapat diakses di halaman manapun)
+        } elseif ($this->session->userdata('keywordNPC')) {
+            $data['keyword'] = $this->session->userdata('keywordNPC'); // agar saat ganti halaman session masih berjalan
+        } else {
+            $data['keyword'] = '';
+        }
+
+        // unset session keywordNPC
+        if (isset($_POST['refresh'])) {
+            $this->session->unset_userdata('keywordNPC');
+            redirect('Npc');
+        }
+
         // pagination (sudah di load pada folder config file autoload.php bagian libraries)
         // config
         $config['base_url'] = 'http://localhost/ci-app/Npc/index';
-        $config['total_rows'] = $this->Npc_model->jumlahData();
-        $config['per_page'] = 7;
-        $config['num_links'] = 3; // untuk mengatur jumlah halaman di kiri dan kanan pada link pagination sesuai jumlah yg di inginkan
+
+        $this->db->like('name', $data['keyword']);
+        // $this->db->or_like('region', $data['keyword']);
+        $this->db->from('npc');
+        $config['total_rows'] = $this->db->count_all_results(); // method untuk menghitung ada berapa baris yang dikembalikan pada query terakhir yg dilakukan
+
+        $config['per_page'] = 6;
+        $config['num_links'] = 2; // untuk mengatur jumlah halaman di kiri dan kanan pada link pagination sesuai jumlah yg di inginkan
 
         // styling pagination (untuk memberi style pada pagination CI memakai bootstrap 4)
         $config['full_tag_open'] = '<nav> <ul class="pagination">';
@@ -52,11 +74,11 @@ class Npc extends CI_Controller
         // initialize
         $this->pagination->initialize($config);
 
-
         // jika di codeiginiter setiap key yang disimpan di array ketika dikirim ke viewnya otomatis akan di ekstrak menjadi variabel
         $data['judul'] = "NPC";
         $data['start'] = $this->uri->segment(3); // mengambil data dari segment ke 3 pada url
-        $data['npc'] = $this->Npc_model->getNpcs($config['per_page'], $data['start']); // limit data = getNpcs($limit, $start)
+        $data['npc'] = $this->Npc_model->getNpcs($config['per_page'], $data['start'], $data['keyword']); // limit data = getNpcs($limit, $start)
+        $data['total_rows'] = $config['total_rows'];
 
         $this->load->view('templates/header', $data);
         $this->load->view('Npc/index', $data);

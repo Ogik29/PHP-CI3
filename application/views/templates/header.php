@@ -28,10 +28,17 @@
                 <div class="navbar-nav">
                     <!-- base_url() dapat dipanggil karena sudah di autoload yg terletak pada folder config dan file autoload.php pada bagian $autoload['helper'].
                     letak konfigurasi base_url terdapat di folder config dan file config.php -->
-                    <a class="nav-link" href="<?php echo base_url() ?>">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-link" href="<?php echo base_url() ?>WaifuGenshin">Waifu Genshin</a>
-                    <a class="nav-link" href="<?php echo base_url() ?>Npc">NPC</a>
-                    <a class="nav-link" href="<?php echo base_url() ?>about">About</a>
+                    <a class="nav-link text-white pl-1" href="<?php echo base_url() ?>">Home</a>
+
+                    <form action="<?php echo base_url() ?>waifugenshin" method="POST">
+                        <button class="btn btn-outline-secondary text-white pl-1" type="submit" name="wg">Waifu Genshin</button>
+                    </form>
+
+                    <form action="<?php echo base_url() ?>npc" method="POST">
+                        <button class="btn btn-outline-secondary text-white pl-1" type="submit" name="npc">NPC</button>
+                    </form>
+
+                    <a class="nav-link text-white pl-1" href="<?php echo base_url() ?>about">About</a>
                 </div>
             </div>
         </div>

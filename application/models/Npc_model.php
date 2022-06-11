@@ -14,8 +14,13 @@ class Npc_model extends CI_Model
     }
 
     // pagination
-    public function getNpcs($limit, $start)
+    public function getNpcs($limit, $start, $keyword = null)
     {
+        if ($keyword) {
+            $this->db->like('name', $keyword);
+            // $this->db->or_like('region', $keyword);
+        }
+
         return $this->db->order_by('id', 'desc')->get('npc', $limit, $start)->result_array();
     }
 

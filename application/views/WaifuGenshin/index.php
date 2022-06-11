@@ -1,3 +1,10 @@
+<?php if (isset($_POST['wg'])) {
+    $this->session->unset_userdata('keyword');
+    $this->session->unset_userdata('keywordNPC');
+    redirect('WaifuGenshin');
+}
+?>
+
 <div class="container mt-4">
 
     <!-- menampilkan alert add -->
@@ -40,12 +47,12 @@
     <!-- search -->
     <div class="row">
         <div class="col-md-6">
-            <form action="" method="POST">
+            <form action="<?php echo base_url() ?>WaifuGenshin" method="POST">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Search Waifu name..." name="keyword" autocomplete="off" autofocus>
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">Search</button>
-                        <a href="<?php echo base_url() ?>WaifuGenshin" class="btn btn-outline-secondary">Refresh</a>
+                        <button class="btn btn-outline-secondary" type="submit" name="submit">Search</button>
+                        <button class="btn btn-outline-secondary" type="submit" name="refresh">Refresh</button>
                     </div>
                 </div>
             </form>

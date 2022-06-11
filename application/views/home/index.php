@@ -1,3 +1,6 @@
+<?php $this->session->unset_userdata('keyword'); ?>
+<?php $this->session->unset_userdata('keywordNPC'); ?>
+
 <div class="container mt-4">
     <div class="jumbotron bg-secondary text-light">
         <h1 class="display-4">Welcome to My Website</h1>

@@ -1,3 +1,6 @@
+<?php $this->session->unset_userdata('keyword'); ?>
+<?php $this->session->unset_userdata('keywordNPC'); ?>
+
 <div class="container mt-4">
     <h1>About me</h1>
     <img src="<?php echo base_url() ?>assets/img/EiSeggs.jpg" alt="not me, just there's my wife :v" width="200" class="rounded-circle shadow mt-2 mb-2">

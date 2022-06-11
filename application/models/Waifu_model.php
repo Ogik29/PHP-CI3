@@ -13,8 +13,13 @@ class Waifu_model extends CI_Model
         return $this->db->get('waifugenshin')->num_rows();
     }
 
-    public function getWaifus($limit, $start)
+    public function getWaifus($limit, $start, $keyword = null)
     {
+        if ($keyword) {
+            $this->db->like('nama', $keyword);
+            // $this->db->or_like('vision', $keyword);
+        }
+
         return $this->db->order_by('id', 'desc')->get('waifugenshin', $limit, $start)->result_array();
     }
 
@@ -73,14 +78,5 @@ class Waifu_model extends CI_Model
 
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('waifugenshin', $data);
-    }
-
-    public function searchWaifu()
-    {
-        $keyword = $this->input->post('keyword', true);
-
-        $this->db->like('nama', $keyword);
-        // $this->db->or_like('vision', $keyword);
-        return $this->db->order_by('id', 'desc')->get('waifugenshin')->result_array();
     }
 }
