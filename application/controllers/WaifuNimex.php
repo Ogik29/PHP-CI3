@@ -2,7 +2,7 @@
 
 /* pemanggilan database berada di folder config dan file autoload.php pada bagian $autoload['libraries']
 sedangkan konfigurasi database ada di folder config dan file database.php */
-class WaifuGenshin extends CI_Controller
+class WaifuNimex extends CI_Controller
 {
     // di masukkan ke constructor berfungsi agar seluruh method di class WaifuGenshin bisa mengload model tanpa harus mengload ulang modelnya di dalam method lain
     public function __construct()
@@ -10,8 +10,7 @@ class WaifuGenshin extends CI_Controller
         // memanggil contructor yang ada di class parentnya (CI_Controller) terlebih dahulu
         parent::__construct();
         // di CI jika ingin menggunakan sesuatu harus di load terlebih dahulu
-        $this->load->model('Waifu_model');
-        $this->load->model('WaifuGenshin_info');
+        $this->load->model('Waifu2_model');
         $this->load->library('form_validation'); // syarat agar bisa memakai 'form_validation'
     }
 
@@ -20,26 +19,26 @@ class WaifuGenshin extends CI_Controller
         // searching
         if (isset($_POST['submit'])) { // ('submit') didapat dari name yang ada di button bukan type
             $data['keyword'] = $this->input->post('keyword');
-            $this->session->set_userdata('keyword', $data['keyword']);
+            $this->session->set_userdata('keyword2', $data['keyword']);
             // simpan $data['keyword'] di session set_userdata('keyword') (karena session dapat diakses di halaman manapun)
-        } elseif ($this->session->userdata('keyword')) {
-            $data['keyword'] = $this->session->userdata('keyword'); // agar saat ganti halaman session masih berjalan
+        } elseif ($this->session->userdata('keyword2')) {
+            $data['keyword'] = $this->session->userdata('keyword2'); // agar saat ganti halaman session masih berjalan
         } else {
             $data['keyword'] = '';
         }
 
         // unset session keyword
         if (isset($_POST['refresh'])) {
-            $this->session->unset_userdata('keyword');
-            redirect('WaifuGenshin');
+            $this->session->unset_userdata('keyword2');
+            redirect('WaifuNimex');
         }
 
         // pagination (sudah di load pada folder config file autoload.php bagian libraries)
         // config
-        $config['base_url'] = 'http://localhost/ci-app/WaifuGenshin/index';
+        $config['base_url'] = 'http://localhost/ci-app/WaifuNimex/index';
 
         $this->db->like('nama', $data['keyword']);
-        $this->db->from('waifugenshin');
+        $this->db->from('WaifuNimex');
         $config['total_rows'] = $this->db->count_all_results(); // method untuk menghitung ada berapa baris yang dikembalikan pada query terakhir yg dilakukan
 
         $config['per_page'] = 6;
@@ -77,92 +76,89 @@ class WaifuGenshin extends CI_Controller
         $this->pagination->initialize($config);
 
         // jika di codeiginiter setiap key yang disimpan di array ketika dikirim ke viewnya otomatis akan di ekstrak menjadi variabel
-        $data['judul'] = "Waifu Genshin";
+        $data['judul'] = "Waifu Nimex";
         $data['start'] = $this->uri->segment(3); // mengambil data dari segment ke 3 pada url
-        $data['waifu'] = $this->Waifu_model->getWaifus($config['per_page'], $data['start'], $data['keyword']); // limit data = getNpcs($limit, $start)
+        $data['waifu'] = $this->Waifu2_model->getWaifus($config['per_page'], $data['start'], $data['keyword']); // limit data = getNpcs($limit, $start)
 
         $this->load->view('templates/header', $data);
-        $this->load->view('WaifuGenshin/index', $data);
+        $this->load->view('WaifuNimex/index', $data);
         $this->load->view('templates/footer');
     }
 
     public function detail($id)
     {
         $data['judul'] = "Waifu Detail";
-        $data['waifu'] = $this->Waifu_model->getWaifu($id);
+        $data['waifu'] = $this->Waifu2_model->getWaifu($id);
 
         $this->load->view('templates/header', $data);
-        $this->load->view('WaifuGenshin/detail', $data);
+        $this->load->view('WaifuNimex/detail', $data);
         $this->load->view('templates/footer');
     }
 
     public function add()
     {
         $data['judul'] = "Add Waifu";
-        $data['vision'] = $this->WaifuGenshin_info->getAllVision();
-        $data['region'] = $this->WaifuGenshin_info->getAllRegion();
+        $data['single'] = ['Unknown', 'Yes', 'No'];
 
         /* memberi rules terlebih dahulu 
         ada 3 parameter di set_rules('name dari sebuah elemen yg ada di form', 'nama alias untuk pesan error', 'rulesnya ingin apa') */
         $this->form_validation->set_rules('nama', 'Name', 'required|alpha_numeric_spaces');
-        $this->form_validation->set_rules('vision', 'Vision/Gnosis', 'required');
-        $this->form_validation->set_rules('region', 'Region', 'required');
+        $this->form_validation->set_rules('anime', 'Anime', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
-            $this->load->view('WaifuGenshin/add', $data);
+            $this->load->view('WaifuNimex/add', $data);
             $this->load->view('templates/footer');
         } else {
-            $this->Waifu_model->addWaifu($this->uploadIMG());
+            $this->Waifu2_model->addWaifu($this->uploadIMG());
             // sebelum menggunakan session, sessionnya harus di autoload dulu di folder config dan file autoload.php pada bagian $autoload['libraries']
             $this->session->set_flashdata('flashAdd', 'to added'); // memiliki 2 parameter set_flashdata('nama session', 'pesan');
-            redirect('WaifuGenshin');
+            redirect('WaifuNimex');
         }
     }
 
     public function update($id)
     {
         $data['judul'] = "Update Waifu";
-        $data['waifu'] = $this->Waifu_model->getWaifu($id);
-        $data['vision'] = $this->WaifuGenshin_info->getAllVision();
-        $data['region'] = $this->WaifuGenshin_info->getAllRegion();
+        $data['waifu'] = $this->Waifu2_model->getWaifu($id);
+        $data['single'] = ['Unknown', 'Yes', 'No'];
 
         $this->form_validation->set_rules('nama', 'Name', 'required|alpha_numeric_spaces');
-        $this->form_validation->set_rules('vision', 'Vision/Gnosis', 'required');
-        $this->form_validation->set_rules('region', 'Region', 'required');
+        $this->form_validation->set_rules('anime', 'Anime', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
-            $this->load->view('WaifuGenshin/update', $data);
+            $this->load->view('WaifuNimex/update', $data);
             $this->load->view('templates/footer');
         } else {
-            $this->Waifu_model->updateWaifu($this->uploadIMG());
+            $this->Waifu2_model->updateWaifu($this->uploadIMG());
             $this->session->set_flashdata('flashAdd', 'to updated');
-            redirect('WaifuGenshin');
+            redirect('WaifuNimex');
         }
     }
 
     public function delete($id)
     {
-        $this->Waifu_model->deleteWaifu($id);
+        $this->Waifu2_model->deleteWaifu($id);
         $this->session->set_flashdata('flashDelete', 'to deleted');
-        redirect('WaifuGenshin');
+        redirect('WaifuNimex');
     }
 
     public function gacha()
     {
-        $data['judul'] = 'Gacha';
+        $data['judul'] = "Gacha Waifu";
 
         if (isset($_POST['tombolGacha'])) {
-            $data['waifu'] = $this->Waifu_model->gachaWaifu();
+            $data['waifu'] = $this->Waifu2_model->gachaWaifu();
         } else {
             $data['waifu'] = ['nama' => '<p class="text-primary">Press Gacha Button First!</p>'];
         }
 
         $this->load->view('templates/header', $data);
-        $this->load->view('WaifuGenshin/gacha', $data);
+        $this->load->view('WaifuNimex/gacha', $data);
         $this->load->view('templates/footer');
     }
+
 
     // fungsi untuk upload gambar 
     public function uploadIMG()

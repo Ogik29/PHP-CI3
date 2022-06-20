@@ -1,16 +1,16 @@
 <?php
 
-class Waifu_model extends CI_Model
+class Waifu2_model extends CI_Model
 {
     public function getAllWaifu()
     {
-        $query = $this->db->order_by('id', 'desc')->get('waifugenshin'); // memanggil data dalam table
+        $query = $this->db->order_by('id', 'desc')->get('waifunimex'); // memanggil data dalam table
         return $query->result_array(); // menampilkan data seluruh row (berupa array)
     }
 
     public function jumlahData()
     {
-        return $this->db->get('waifugenshin')->num_rows();
+        return $this->db->get('waifunimex')->num_rows();
     }
 
     public function getWaifus($limit, $start, $keyword = null)
@@ -20,12 +20,12 @@ class Waifu_model extends CI_Model
             // $this->db->or_like('vision', $keyword);
         }
 
-        return $this->db->order_by('id', 'desc')->get('waifugenshin', $limit, $start)->result_array();
+        return $this->db->order_by('id', 'desc')->get('waifunimex', $limit, $start)->result_array();
     }
 
     public function getWaifu($id)
     {
-        $query = $this->db->get_where('waifugenshin', array('id' => $id));
+        $query = $this->db->get_where('waifunimex', array('id' => $id));
         return $query->row_array(); // menampilkan data single row (berupa array)
     }
 
@@ -38,23 +38,23 @@ class Waifu_model extends CI_Model
 
         $data = [
             'nama' => $this->input->post('nama', true),
-            'vision' => $this->input->post('vision', true),
-            'region' => $this->input->post('region', true),
+            'single' => $this->input->post('single', true),
+            'anime' => $this->input->post('anime', true),
             'deskripsi' => $this->input->post('deskripsi', true),
             'img' => $img
         ];
 
-        $this->db->insert('waifugenshin', $data);
+        $this->db->insert('waifunimex', $data);
     }
 
     public function deleteWaifu($id)
     {
-        $this->db->delete('waifugenshin', array('id' => $id));
+        $this->db->delete('waifunimex', array('id' => $id));
     }
 
     public function gachaWaifu()
     {
-        $query = $this->db->get('waifugenshin')->result_array();
+        $query = $this->db->get('waifunimex')->result_array();
         $lastData = count($query) - 1;
         $randomWaifu = rand(0, $lastData);
 
@@ -71,13 +71,13 @@ class Waifu_model extends CI_Model
 
         $data = [
             'nama' => $this->input->post('nama', true),
-            'vision' => $this->input->post('vision', true),
-            'region' => $this->input->post('region', true),
+            'single' => $this->input->post('single', true),
+            'anime' => $this->input->post('anime', true),
             'deskripsi' => $this->input->post('deskripsi', true),
             'img' => $img
         ];
 
         $this->db->where('id', $this->input->post('id')); // $this->input->post('id') didapat dari input hidden yang ada di views update
-        $this->db->update('waifugenshin', $data);
+        $this->db->update('waifunimex', $data);
     }
 }

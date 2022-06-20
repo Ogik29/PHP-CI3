@@ -1,4 +1,5 @@
 <?php $this->session->unset_userdata('keyword'); ?>
+<?php $this->session->unset_userdata('keyword2'); ?>
 <?php $this->session->unset_userdata('keywordNPC'); ?>
 
 <div class="container mt-4">

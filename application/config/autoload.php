@@ -94,7 +94,8 @@ $autoload['drivers'] = array();
 */
 
 // agar bisa memanggil base_url
-$autoload['helper'] = array('url');
+// ditambahkan form agar bisa memakai controller upload file
+$autoload['helper'] = array('url', 'form');
 
 /*
 | -------------------------------------------------------------------

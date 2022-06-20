@@ -28,24 +28,21 @@
                             <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3"></textarea>
                         </div>
 
-                        <div class="form-group">
-                            <label for="vision">Vision/Gnosis: </label>
-                            <select multiple class="form-control" id="vision" name="vision">
-                                <?php foreach ($vision as $v) : ?>
-                                    <option value="<?php echo $v['vision'] ?>"> <?php echo $v['vision'] ?></option>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="single">Single? </label>
+                            </div>
+                            <select class="custom-select" id="single" name="single">
+                                <?php foreach ($single as $s) : ?>
+                                    <option value="<?php echo $s ?>"> <?php echo $s ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <small class="form-text text-danger"><?php echo form_error('vision') ?></small> <!-- memunculkan pesan error -->
                         </div>
 
                         <div class="form-group">
-                            <label for="region">Region: </label>
-                            <select multiple class="form-control" id="region" name="region">
-                                <?php foreach ($region as $r) : ?>
-                                    <option value="<?php echo $r['region'] ?>"><?php echo $r['region'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <small class="form-text text-danger"><?php echo form_error('region') ?></small> <!-- memunculkan pesan error -->
+                            <label for="anime">Anime: </label>
+                            <input type="text" class="form-control" id="anime" name="anime">
+                            <small class="form-text text-danger"><?php echo form_error('anime') ?></small> <!-- memunculkan pesan error -->
                         </div>
 
                         <div class="form-group">
@@ -54,7 +51,7 @@
                         </div>
 
                         <button type="submit" name="submit" class="btn btn-primary mt-2 float-right">Add</button>
-                        <a href="<?php echo base_url() ?>WaifuGenshin" class="closeButton btn btn-secondary btn-md mt-2 float-right" role="button" aria-pressed="true">Close</a>
+                        <a href="<?php echo base_url() ?>WaifuNimex" class="closeButton btn btn-secondary btn-md mt-2 float-right" role="button" aria-pressed="true">Close</a>
                     </form>
                 </div>
 

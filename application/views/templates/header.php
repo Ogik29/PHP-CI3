@@ -34,6 +34,10 @@
                         <button class="btn btn-outline-secondary text-white pl-1" type="submit" name="wg">Waifu Genshin</button>
                     </form>
 
+                    <form action="<?php echo base_url() ?>waifunimex" method="POST">
+                        <button class="btn btn-outline-secondary text-white pl-1" type="submit" name="wn">Waifu Nimex</button>
+                    </form>
+
                     <form action="<?php echo base_url() ?>npc" method="POST">
                         <button class="btn btn-outline-secondary text-white pl-1" type="submit" name="npc">NPC</button>
                     </form>

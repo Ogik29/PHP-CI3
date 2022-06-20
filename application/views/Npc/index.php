@@ -1,5 +1,6 @@
 <?php if (isset($_POST['npc'])) {
     $this->session->unset_userdata('keyword');
+    $this->session->unset_userdata('keyword2');
     $this->session->unset_userdata('keywordNPC');
     redirect('Npc');
 }
